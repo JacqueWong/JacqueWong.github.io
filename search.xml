@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Game Aids</title>
+    <url>/2022/12/22/Game-Aids/</url>
+    <content><![CDATA[<pre><code>这是第一个相对完整的Python项目，算是对自学Python的学习实践吧
+
+python + pyautogui + PIL + easyocr， Game-Aids.
+</code></pre>
+<hr>
+ <span id="more"></span>
+
+<p><a href="">TOC</a></p>
+<h2 id=""><a href="#" class="headerlink" title="."></a>.</h2><blockquote>
+<p>时间：2022-12-25 </p>
+</blockquote>
+<p>工作日渐繁忙，或许不久的将来，又会回到退游的状态，等到我归来时又是一贫如洗，出于对dxcb2的喜爱<del>（主要是心疼我氪的金）</del>，我决定写一个程序来帮我完成简单的日常任务来积累资源（因为购买了坩埚和沙漏，流程变得相对简单），例如消耗每天的冒险时间，庄园的双倍收益，竞技场的荣誉碎片，教会的个人任务，得益于大学的时候我做过一个非常糟糕版本，我只需要完成框架的优化和技术的更新（就是OCR），这些目前已经完成，当然还有更多需求需要完成，那就在这建立一个TODO好了。</p>
+<blockquote>
+<p>时间是足够的， 感谢疫情 :(</p>
+<p>甚至我还有时间把它优化到满足日常工作需要，把我从繁复的重复劳动中解放出来</p>
+<p>再次感谢疫情 :(</p>
+<p>这样我周末就有更多时间出去玩了，emmmm，我讨厌疫情 :(</p>
+</blockquote>
+<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
+<li><p><input checked="" disabled="" type="checkbox">  装备满了就无法冒险，需要分解它们    </p>
+</li>
+<li><p><input disabled="" type="checkbox">  教会的任务两天一次，或许我可以在配置文件里添加条件</p>
+</li>
+<li><p><input disabled="" type="checkbox">  竞技场还有赛季奖励，别漏了这个</p>
+</li>
+<li><p><input disabled="" type="checkbox">  裂隙好像也是可以的，应该不难</p>
+</li>
+<li><p><input disabled="" type="checkbox">  记录自动化操作流程，简化同一设备执行过程</p>
+</li>
+<li><p><input disabled="" type="checkbox">  把领取收益和冒险分开，刚好庄园也是一天需要登录两次</p>
+</li>
+<li><p><input disabled="" type="checkbox">  庄园的存储是有上限的，做成沙子或许是个不错的选择</p>
+</li>
+<li><p><input disabled="" type="checkbox">  圣迹还需要大量的时间，我不登录这段的时间好像刚好</p>
+</li>
+<li><p><input disabled="" type="checkbox">  消耗沙子同样令人烦躁，这是可以节省的时间</p>
+</li>
+<li><p><input disabled="" type="checkbox">  奥，OCR让很多功能可以简单地实现出来。很多。happy&amp;&amp;sad.</p>
+</li>
+<li><p><input disabled="" type="checkbox">  运行发生严重错误邮件提醒</p>
+</li>
+</ul>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ul>
+<li><p>首先，需要在window上运行Android，这需要simulator</p>
+<p>感谢<a href="https://www.bluestacks.cn/"><strong>BlueStacks</strong></a>，ld的恶心程度记忆尤新，当然现在依然如此 </p>
+<p><img src="/image.png"></p>
+</li>
+<li><p>完全的自动化需要window定时任务或者放在服务器上，现在的目标暂时是打包成exe</p>
+</li>
+<li><p>为了实现自动化操作，需要获取屏幕信息以及控制鼠标键盘，需要的模块(pip install)</p>
+<ul>
+<li><p>opencv-python(cv2)</p>
+</li>
+<li><p>numpy</p>
+</li>
+<li><p>Pillow(PIL)</p>
+</li>
+<li><p>PyAutoGUI</p>
+</li>
+<li><p>easyocr</p>
+</li>
+</ul>
+</li>
+<li><p>大概的思路就是：针对事先截下点击目标，获取当前截图，匹配目标位置，点击，重复核心就是增加逻辑，重复这个操作，完成整个流程，这是一个很朴素的思路，在我退游的时候，easyocr还没出现，我只有这个相对简便选择。当然，现在也是，我的PC不支持CUDA，OCR会影响性能，我必须得结合起来使用。sad.</p>
+</li>
+<li><p>功能需求都在TODO了</p>
+</li>
+<li><p>python环境(3.9)和IDE(pycharm)不展开说明</p>
+</li>
+<li><p>接下来是设计与实现</p>
+</li>
+<li><p>end</p>
+</li>
+</ul>
+<h2 id="设计与实现"><a href="#设计与实现" class="headerlink" title="设计与实现"></a>设计与实现</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><ul>
+<li>dxcb2<ul>
+<li><p>bin                 存放可执行文件等，例如ocr需要的model</p>
+</li>
+<li><p>config           config files. such as ini and json</p>
+</li>
+<li><p>docs             思维导图 drawio note</p>
+</li>
+<li><p>lib                 library function</p>
+</li>
+<li><p>Logs             log files</p>
+</li>
+<li><p>src                main function</p>
+</li>
+<li><p>static            resource:png file</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p><img src="/Main.png"></p>
+<ul>
+<li><p>初始化，包括检查网络，加载默认配置，游戏配置，资源文件等</p>
+</li>
+<li><p>打开模拟器</p>
+</li>
+<li><p>打开游戏，开始任务</p>
+</li>
+<li><p>运行结束，修改相关配置文件</p>
+</li>
+</ul>
+<h3 id="主要功能实现"><a href="#主要功能实现" class="headerlink" title="主要功能实现"></a>主要功能实现</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><pre><code>    ini文件 + configparser 
+</code></pre>
+<h4 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h4><pre><code>    json module + json文件 , 用os.walk将static下文件记录到JSON文件，通过生成文件索引，使用索引+递归快速查找resource
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def __find_res(self, temp_dict, name):</span><br><span class="line">    target_key = None</span><br><span class="line">    for key, value in dict.items(temp_dict):</span><br><span class="line">        if key == name:</span><br><span class="line">            print(value)</span><br><span class="line">            return value</span><br><span class="line">        if type(value) is dict and list.index(self.res_list, key) &lt; list.index(self.res_list, name):</span><br><span class="line">            target_key = key</span><br><span class="line">    return self.__find_res(temp_dict[target_key], name)</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动化操作"><a href="#自动化操作" class="headerlink" title="自动化操作"></a>自动化操作</h4><pre><code>   ` auto.py + matching.py`      通过auto的match target position函数，结合matching的辅助图像处理函数以及均值哈希图像对比算法，确定目标存在与否，相对位置，以及对应的动作，代码篇幅较大，就不贴出来了。算是核心部分了，但项目还未结束，此函数有待完善，后续再做补充。
+</code></pre>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>pyinstaller</p>
+<p>command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pyinstaller -D src/main.py -i static/Jacque.ico -n dxcb2 --distpath bin/v1/dist --workpath bin/v1/build --specpath bin/v1 --add-data=&quot;bin/model/*;./bin/model&quot; --add-data=&quot;config/*;./config&quot; --add-data=&quot;static/*;./static&quot;</span><br></pre></td></tr></table></figure>
+
+<p>实在是不想整图形界面，命令行程序应该可以满足我的需求</p>
+<p>date:2023-1-13.Jacque.</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>resume</title>
+    <url>/2022/12/27/resume/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="Oh, these decrypted content cannot be verified, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="7fde556540274d3de124b40e59586802cb09d30942a044b117a1cd049aeaa153">7638e67117d09d6888d1134831a4058006fd920051eb323e7707f1558b903e06b5fe97da5ec98a4fadb6ab2101d8976b751d580c8dfe6ea27b1e4d1dace7ca68d57c211c880abfee17b22638c97a0c88d1d567632861c399b4200be258b978c09b2faf497d94cfcbeeb4e5de39f13378427fa1940d6323210f0ec7fb7bc4875c20e5ae2c657649ae94297f2042d75ded</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">password is required here.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>resume</tag>
+      </tags>
+  </entry>
+</search>
