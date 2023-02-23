@@ -22,14 +22,12 @@
   <entry>
     <title>Game Aids</title>
     <url>/2022/12/22/Game-Aids/</url>
-    <content><![CDATA[<pre><code>这是第一个相对完整的Python项目，算是对自学Python的学习实践吧
-
-python + pyautogui + PIL + easyocr， Game-Aids.
-</code></pre>
+    <content><![CDATA[<p>  这是第一个相对完整的Python项目，算是对自学Python的学习实践吧</p>
+<p>   tags: python + pyautogui + PIL + easyocr， Game-Aids.</p>
 <hr>
  <span id="more"></span>
 
-<p><a href="">TOC</a></p>
+<p>[TOC]</p>
 <h2 id=""><a href="#" class="headerlink" title="."></a>.</h2><blockquote>
 <p>时间：2022-12-25 </p>
 </blockquote>
@@ -67,7 +65,7 @@ python + pyautogui + PIL + easyocr， Game-Aids.
 <h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ul>
 <li><p>首先，需要在window上运行Android，这需要simulator</p>
 <p>感谢<a href="https://www.bluestacks.cn/"><strong>BlueStacks</strong></a>，ld的恶心程度记忆尤新，当然现在依然如此 </p>
-<p><img src="/image.png"></p>
+<p><img src="/2022/12/22/Game-Aids/image.png"></p>
 </li>
 <li><p>完全的自动化需要window定时任务或者放在服务器上，现在的目标暂时是打包成exe</p>
 </li>
@@ -115,7 +113,7 @@ python + pyautogui + PIL + easyocr， Game-Aids.
 </ul>
 </li>
 </ul>
-<h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p><img src="/Main.png"></p>
+<h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p><img src="/2022/12/22/Game-Aids/dxcb2-Main.drawio.png"></p>
 <ul>
 <li><p>初始化，包括检查网络，加载默认配置，游戏配置，资源文件等</p>
 </li>
@@ -126,20 +124,21 @@ python + pyautogui + PIL + easyocr， Game-Aids.
 <li><p>运行结束，修改相关配置文件</p>
 </li>
 </ul>
-<h3 id="主要功能实现"><a href="#主要功能实现" class="headerlink" title="主要功能实现"></a>主要功能实现</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><pre><code>    ini文件 + configparser 
-</code></pre>
-<h4 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h4><pre><code>    json module + json文件 , 用os.walk将static下文件记录到JSON文件，通过生成文件索引，使用索引+递归快速查找resource
-</code></pre>
+<h3 id="主要功能实现"><a href="#主要功能实现" class="headerlink" title="主要功能实现"></a>主要功能实现</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>  ini文件 + configparser </p>
+<h4 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h4><p>json module + json文件 , 用os.walk将static下文件记录到JSON文件，通过生成文件索引，使用索引+递归快速查找resource</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def __find_res(self, temp_dict, name):</span><br><span class="line">    target_key = None</span><br><span class="line">    for key, value in dict.items(temp_dict):</span><br><span class="line">        if key == name:</span><br><span class="line">            print(value)</span><br><span class="line">            return value</span><br><span class="line">        if type(value) is dict and list.index(self.res_list, key) &lt; list.index(self.res_list, name):</span><br><span class="line">            target_key = key</span><br><span class="line">    return self.__find_res(temp_dict[target_key], name)</span><br></pre></td></tr></table></figure>
 
-<h4 id="自动化操作"><a href="#自动化操作" class="headerlink" title="自动化操作"></a>自动化操作</h4><pre><code>   ` auto.py + matching.py`      通过auto的match target position函数，结合matching的辅助图像处理函数以及均值哈希图像对比算法，确定目标存在与否，相对位置，以及对应的动作，代码篇幅较大，就不贴出来了。算是核心部分了，但项目还未结束，此函数有待完善，后续再做补充。
-</code></pre>
+<h4 id="自动化操作"><a href="#自动化操作" class="headerlink" title="自动化操作"></a>自动化操作</h4><p> <code> auto.py + matching.py</code><br> 通过auto的match target position函数，<br> 结合matching的辅助图像处理函数以及均值哈希图像对比算法，<br> 确定目标存在与否，相对位置，以及对应的动作，<br> 代码篇幅较大，就不贴出来了。<br> 算是核心部分了，但项目还未结束，此函数有待完善，后续再做补充。</p>
 <h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>pyinstaller</p>
 <p>command:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pyinstaller -D src/main.py -i static/Jacque.ico -n dxcb2 --distpath bin/v1/dist --workpath bin/v1/build --specpath bin/v1 --add-data=&quot;bin/model/*;./bin/model&quot; --add-data=&quot;config/*;./config&quot; --add-data=&quot;static/*;./static&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pyinstaller --noconfirm -c -D ../../src/main.py -i ../../static/Jacque.ico -n dxcb2 --add-data=&quot;../../docs/model;./model&quot; --add-data=&quot;../../config;./config&quot; --add-data=&quot;../../static;./static&quot; --add-data=&quot;../../Logs;./Logs&quot; --hidden-import=../../lib/ocr.py</span><br></pre></td></tr></table></figure>
 
 <p>实在是不想整图形界面，命令行程序应该可以满足我的需求</p>
-<p>date:2023-1-13.Jacque.</p>
+<h2 id="Now"><a href="#Now" class="headerlink" title="Now"></a>Now</h2><blockquote>
+<p>date:2023-2-23.</p>
+</blockquote>
+<p>过完春节，还跑去玩了好几次，终于想起搁置的小项目了，罪过罪过</p>
+<p>pyinstaller的打包暂时没有问题了，或许周末可以完整测试一下了。:)</p>
 ]]></content>
       <tags>
         <tag>python</tag>
